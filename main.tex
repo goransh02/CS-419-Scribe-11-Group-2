@@ -1,0 +1,221 @@
+%
+% This is the LaTeX template file for lecture notes for CS294-8,
+% Computational Biology for Computer Scientists.  When preparing 
+% LaTeX notes for this class, please use this template.
+%
+% To familiarize yourself with this template, the body contains
+% some examples of its use.  Look them over.  Then you can
+% run LaTeX on this file.  After you have LaTeXed this file then
+% you can look over the result either by printing it out with
+% dvips or using xdvi.
+%
+% This template is based on the template for Prof. Sinclair's CS 270.
+
+\documentclass[11pt, twosides]{article}
+\newcommand\lambdaaaa{\lambda}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\setlength{\oddsidemargin}{0.25 in}
+\setlength{\evensidemargin}{-0.25 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%
+% The following commands set up the lecnum (lecture number)
+% counter and make various numbering schemes work relative
+% to the lecture number.
+%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+%
+% The following macro is used to generate the header.
+%
+\newcommand{\lecture}[4]{
+%   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in { {\bf CS 419M Introduction to Machine Learning
+                        \hfill Spring 2021-22} }
+      % \vspace{4mm}
+      % \hbox to 6.28in { {\Large \hfill Lecture #1: #2  \hfill} }
+       %\vspace{2mm}
+       \hbox to 6.28in { {\it Lecturer: #3 \hfill Scribe: #4} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{Lecture #1: #2}{Lecture #1: #2}
+}
+
+%
+% Convention for citations is authors' initials followed by the year.
+% For example, to cite a paper by Leighton and Maggs you would type
+% \cite{LM89}, and to cite a paper by Strassen you would type \cite{S69}.
+% (To avoid bibliography problems, for now we redefine the \cite command.)
+% Also commands that create a suitable format for the reference list.
+% \renewcommand{\cite}[1]{[#1]}
+% \def\beginrefs{\begin{list}%
+%         {[\arabic{equation}]}{\usecounter{equation}
+%          \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+%          \setlength{\labelwidth}{1.6truecm}}}
+% \def\endrefs{\end{list}}
+% \def\bibentry#1{\item[\hbox{[#1]}]}
+
+%Use this command for a figure; it puts a figure in wherever you want it.
+%usage: \fig{NUMBER}{SPACE-IN-INCHES}{CAPTION}
+% \newcommand{\fig}[3]{
+% 			\vspace{#2}
+% 			\begin{center}
+% 			Figure \thelecnum.#1:~#3
+% 			\end{center}
+% 	}
+% Use these for theorems, lemmas, proofs, etc.
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+% \newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+% **** IF YOU WANT TO DEFINE ADDITIONAL MACROS FOR YOURSELF, PUT THEM HERE:
+
+\begin{document}
+%FILL IN THE RIGHT INFO.
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{11}{}{Abir De}{Group 11-2}
+%\lecture{x}{Title}{Abir De}{Group y}
+
+\section{Regularization of Bias}
+
+Let's take a step back and think about how overfitting is prevented using regularization. In the case of linear regression, if a regularization term (say L2) is added to the loss function then the weights with large values are penalized. This prevents the model from overfitting since small changes to features corresponding to large weights leads to substantial change in the output of a model thus increasing the model's variance and causing overfitting. Therefore, weight-based regularization is an effective means of controlling overfitting. Let's quickly have a look at the equations before proceeding further
+
+\begin{center}
+\begin{center}
+    h_{w}(x)=w_0+w_1x_1+w_2x_2+...+w_nx_n
+\end{center}
+\end{center}
+
+\begin{center}\begin{center}
+  J(W)=1/2M[\sum \limits_{k = 0}^{m} (h_w(x^i)-y^i)^2+\lambda \sum \limits_{k = 0}^{m}w_j^2]
+\end{center}\end{center}
+\\
+
+ Here, h\textsubscript{w}(x) is the prediction of the linear regression model.
+ J(W) is the loss function and \lambda \end    i   is the regularization hyper-parameter. 
+ Upon closer inspection, we can see that the regularization term starts from 1 rather than 0 meaning that the bias is not regularized.
+
+For argument's sake, let us assume that w\textsubscript{0} (bias) is a part of the regularization term. In order to minimize J(W), the model will reduce the value of all parameters/weights including w\textsubscript{0}. This will cause the line of best fit to move towards the origin and end up in a similar situation as fixing the bias to 0 thus leading to underfitting. Note, there is no constraint on the values taken by w\textsubscript{0}. Therefore, after regularization, w0 can take either negative or positive values but it is assured that these values will be closer to 0.
+
+From the above explanation we can say that the purpose of $b$ (bias) is to just add a bias keeping feature weight constant. We can regularize it in practice but we don't want $b$ to be small like $w$. There exists Datasets for which $w$ can be small and bounded but $b$ will be very high. Because it depends on the positions of data points, so if we limit $b$ it will never go far from origin as we are penalizing $b$.  
+
+The same reason is applicable for not regularizing bias in neural networks.
+
+
+\section{Stablity of Ranking Loss}
+
+\begin{center}
+    
+{f_s(w)=\Large{\sum({1+$w^\top{x_{bad}}$-$w^\top{x_{good}}$}})+\lambda|S_{good}||S_{bad}|||w||^2}\\
+\small{{y_{bad}=-1,y_{good}=+1,$x_{good},x_{bad}\in S$}}\end{center}
+There exist x\textsubscript{good} and x\textsubscript{bad} such that they make a set of pairs.\\
+We get the optimised w as:
+\centering w=\sum\limits_{k = 0}^{m}\frac{((x\textsubscript{good}-x\textsubscript{bad}))}{2\lambda|S\textsubscript{good}||S\textsubscript{bad}|}
+
+
+\raggedright
+\section{Formulation of dual}
+
+%Shivam write here
+\normalsize
+Consider the problem: 
+\begin{center}\begin{center}
+    \vspace{-30pt}
+ \[{ \min_{w} [\sum \limits_{i\in D} (y_i - w^T x)^2}]\]
+ \\ (y ${\approx}$ w^T x)
+\end{center}\end{center}
+\\
+
+ The task is to convert this problem into its dual-like formulation. It must be first converted to a constrained-optimization problem, which then must be checked for convexity.
+
+The first solution propounded was to take $(y_i - w^T x)^2 - \zeta_{i}) \le 0$
+
+Furthering on this, we may write (without completely writing the optimization problem yet):
+\begin{center}
+    \vspace{-25pt}
+    \[\sum_{i \in D}C\zeta_{i}\]
+    \\\vspace{3pt}
+   $(y_i - w^T x)^2 \le \zeta_{i}$
+\end{center}
+Adding a regularizer yields:
+\begin{center}
+    \vspace{-25pt}
+    \[{\sum_{i \in D}C\zeta_{i}} + \lambda||w||^2\]
+    \\\vspace{3pt}
+   $(y_i - w^T x)^2 \le \zeta_{i}$
+\end{center}
+Hence, the following is the constrained optimization problem for which we will construct the dual:
+\begin{center}
+    \vspace{-25pt}
+     \[{ \min_{w} \sum \limits_{i\in D} C\zeta_{i}} + \lambda||w||^2\]
+   $s.t. \hspace{3pt}  (y_i - w^T x)^2 \le \zeta_{i}$
+\end{center}
+
+Since $\hspace{3pt}  (y_i - w^T x)^2 \le \zeta_{i}$ implicitly implie $\zeta \le 0$, one may say that the latter condition is redundant. However, one must also keep in mind that while writing the dual, we will have to specify the domain of $\zeta$, and this implicit relation will not be there to play the role it is playing here.
+
+Note that now, it is possible to get an expression in terms of $\alpha$ as follows:
+
+\begin{center}
+    \vspace{-20pt}
+     \[{ \min_{w} \sum \limits_{i\in D} [C\zeta_{i}}] + \lambda||w||^2 + \sum \limits_{i\in D} [\alpha ((y_i - w^T x)^2 - \zeta_{i}) - \beta_{i}\zeta_{i}]\]
+\end{center}
+\footnotesize{({\bf Note: }The C in the first term may be dropped, i.e., we may write $\sum \limits_{i\in D} [\zeta_{i}]$ instead of $\sum \limits_{i\in D} [C\zeta_{i}]$)}
+
+\normalsize
+
+
+
+\section{Getting the dimension of w in the overfitting case}
+
+
+%Rudraksh right here
+
+
+
+\section{Group Details and Individual Contribution}
+\begin{center}
+\begin{tabular}{ | m{17em} | m{5cm}| m{1cm} | } 
+  \hline
+  200110042 Goransh Gattani& 11.1 and 11.2 \\
+  20D070086	Vagadia Yash Dinesh & Regularisation of bias and Stablity of Ranking Loss \\
+  \hline
+   200100145 Shivam Rajesh Ambokar & Formulation of dual  \\ 
+ \hline
+   20D110021 Rudraksh Kuchiya & Getting the dimension of w in the overfitting case  \\ \hline
+\end{tabular}
+\end{center}\end{document}
+
+
+
+
+
