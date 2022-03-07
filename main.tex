@@ -187,7 +187,16 @@ Note that now, it is possible to get an expression in terms of $\alpha$ as follo
 \section{Getting the dimension of w in the overfitting case}
 
 
-%Rudraksh right here
+
+For a dataset with dimension $| \mathbf{D}|$. We are given a scalar x where it is of polynomial type, i.e. $x = [1, \lambda, \lambda^2......., \lambda^n]$. Now for the overfitting case, that is when the square of error tends to zero, $(y-w^T \Vec{x}) \rightarrow 0$, determine the dimension of $w$. 
+
+As the number of parameters depends upon number of data samples, we get $$Dim(\textbf{w}) = |\mathbf{D}|$$
+
+\textit{(we should rather say, $Dim(\textbf{w}) \leq |\mathbf{D}|}$)}
+
+Now, we know that this shouldn't be the case, so this is another way to refute the overfitting. But still, it gives good generalisation error.
+
+
 
 
 
